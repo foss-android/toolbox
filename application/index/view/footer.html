@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <span>Copyright ©2024 <a href="/">在线工具箱</a></span> | 
+                <span>Copyright ©<span id="year"></span> <a href="/">在线工具箱</a></span> | 
                 <span><a href="https://linux.do/u/f-droid" target="_blank" rel="nofollow">Powered by F-droid</a></span>
             </div>
         </div>
@@ -11,3 +11,7 @@
 <a class="gotop" href="#top" title="返回顶部" style="display: none;">
     <span class="arrow"></span><span class="arrow lit"></span>
 </a>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
