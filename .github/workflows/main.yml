@@ -1,0 +1,42 @@
+name: 构建并推送Docker镜像至GHCR.io
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 设置 Docker Buildx
+        uses: docker/setup-buildx-action@v2
+  
+      - name: 缓存Composer依赖以加快构建速度
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: 登录到GitHub容器注册表
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 构建并推送Docker镜像
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/toolbox:latest
+     
+      - name: 清理未使用的Docker镜像
+        run: docker image prune -f
