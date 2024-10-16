@@ -13,7 +13,7 @@ docker run -d --restart always \
 	-p 8080:80 \
 	-e username=admin \
 	-e password=admin \
-	cleverest/toolbox
+	ghcr.io/foss-android/toolbox
 ```
 
 
@@ -35,7 +35,7 @@ version: '3'
 
 services:
   tools:
-    image: cleverest/toolbox
+    image: ghcr.io/foss-android/toolbox
     container_name: tools
     restart: unless-stopped
     ports:
